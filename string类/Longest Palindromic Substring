@@ -1,1 +1,30 @@
-
+题目描述：给定一个字符串s，找出s中最长的回文子串。您可以假定s的最大长度为1000。
+###############################################################
+例如：
+（1）
+Input: "babad"
+Output: "bab"
+Note: "aba" is also a valid answer. 
+（2）
+Input: "cbbd"
+Output: "bb"
+###############################################################
+解题思路：回文数问题，有两种回文数，偶数回文数和奇数回文数，因此需要分两种情况讨论。利用for循环遍历字符串，计算当前字符向两边扩张形成最大回文数的字符串。
+         需要构建一个函数，计算当前字符串向两边扩张形成最大回文数的字符串。
+python代码:
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        def helper(i, j):
+            while i >= 0 and j < len(s) and s[i] == s[j]:
+                i -= 1
+                j += 1
+            return s[i+1:j]
+        ans = ""
+        for start in range(len(s)):
+            t = helper(start, start+1)
+            if len(t) > len(ans):
+                ans = t
+            t = helper(start, start)
+            if len(t) > len(ans):
+                ans = t
+        return ans
