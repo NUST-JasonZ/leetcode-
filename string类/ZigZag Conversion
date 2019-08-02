@@ -1,1 +1,33 @@
-dsg
+题目描述：给定一个字符串变成之字形字符串输出。
+###############################################################
+例如：
+（1）
+Input: s = "PAYPALISHIRING", numRows = 3
+Output: "PAHNAPLSIIGYIR" 
+（2）
+Input: s = "PAYPALISHIRING", numRows = 4
+Output: "PINALSIGYAHRPI"
+Explanation:
+
+P     I    N
+A   L S  I G
+Y A   H R
+P     I
+###############################################################
+解题思路：构造空列表temp，使用row记录行索引，step表示方向，最后将子列表拼接。
+python代码:
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        temp = [[] for _ in range(numRows)]
+        row, step = 0, 1
+        result = ''
+        for i in range(len(s)):
+            temp[row] += s[i]
+            if row == 0:
+                step = 1
+            elif row == numRows - 1:
+                step = -1
+            row += step
+        for i in range(numRows):
+            result += ''.join(temp[i])
+        return result
