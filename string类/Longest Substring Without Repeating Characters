@@ -1,0 +1,39 @@
+题目描述：给定一个字符串，在不重复字符的情况下查找最长子字符串的长度。
+###############################################################
+例如：
+（1）
+Input: "abcabcbb"
+Output: 3 
+Explanation: The answer is "abc", with the length of 3. 
+（2）
+Input: "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+（3）
+Input: "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+###############################################################
+解题思路：使用find（）函数和max（）函数。find函数的作用是在给定开始和结束的范围内，检查字符串中是否包含字符串str。使用result表示输出结果。
+         声明索引变量i，使用while循环遍历字符串，再使用一个索引变量cur表示不重复字符串的起始位置，如果字符串索引i的字符在[cur,i)范围内出现，获取重复字符的
+         索引赋值给临时变量curt，此时利用max函数刷新result，同时将curt+1索引赋值给cur。否则，i+1。
+         当遍历到字符串最后一位时，如果没有出现重复的情况，这时候result的值不会被刷新，最后可用if语句刷新一下。
+         特别注意：字符串如果为空，返回0。
+python代码:
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        result = 1
+        if len(s) == 0:
+            return 0
+        i = 0
+        cur= 0
+        while i < len(s):
+            curt = s.find(s[i], cur, i)
+            if curt != -1:
+                result = max(result, i-cur)
+                cur = curt+1
+            i = i+1
+        if s.find(s[len(s)-1], cur, len(s)-1) == -1:
+            return max(result, len(s) - cur)
+        return result
+        
