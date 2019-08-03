@@ -1,0 +1,45 @@
+题目描述：
+罗马数字由七个不同的符号表示：
+Symbol       Value
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+I can be placed before V (5) and X (10) to make 4 and 9. 
+X can be placed before L (50) and C (100) to make 40 and 90. 
+C can be placed before D (500) and M (1000) to make 400 and 900.
+###############################################################
+例如：
+（1）
+Input: 3
+Output: "III"
+（2）
+Input: 4
+Output: "IV"
+（3）
+Input: 9
+Output: "IX"
+（4）
+Input: 58
+Output: "LVIII"
+Explanation: L = 50, V = 5, III = 3.
+（5）
+Input: 1994
+Output: "MCMXCIV"
+Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+###############################################################
+解题思路：首先将Roman和interger初始化为两个list。遍历interger列表。
+python代码:
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        roman = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I']
+        interger = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
+        result = ''
+        for i in range(len(interger)):
+            while num >= interger[i]:
+                result += roman[i]
+                num -= interger[i]
+        return result
