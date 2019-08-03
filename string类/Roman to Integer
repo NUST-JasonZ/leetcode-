@@ -1,0 +1,46 @@
+题目描述：
+Symbol       Value
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+I can be placed before V (5) and X (10) to make 4 and 9. 
+X can be placed before L (50) and C (100) to make 40 and 90. 
+C can be placed before D (500) and M (1000) to make 400 and 900.
+###############################################################
+例如：
+（1）
+Input: "III"
+Output: 3
+（2）
+Input: "IV"
+Output: 4
+（3）
+Input: "IX"
+Output: 9
+（4）
+Input: "LVIII"
+Output: 58
+Explanation: L = 50, V= 5, III = 3.
+（5）
+Input: "MCMXCIV"
+Output: 1994
+Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+###############################################################
+解题思路：使用字典table = {'M':1000, 'CM':900, 'D':500, 'CD':400, 'C':100, 'XC':90, 'L':50, 'XL': 40, 'X':10, 'IX':9, 'V':5, 'VI':4, 'I':1}
+         得到映射关系。
+python代码:
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        table = {'M':1000, 'CM':900, 'D':500, 'CD':400, 'C':100, 'XC':90, 'L':50, 'XL': 40, 'X':10, 'IX':9, 'V':5, 'VI':4, 'I':1}
+        result = 0
+        for i in range(len(s)):
+            if i > 0 and table[s[i]] > table[s[i - 1]]:
+                result += table[s[i]]
+                result -= 2 * table[s[i - 1]]
+            else:
+                result += table[s[i]]
+        return result
