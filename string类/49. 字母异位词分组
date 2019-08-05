@@ -1,0 +1,28 @@
+题目描述：
+给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。
+###############################################################
+例如：
+（1）
+输入: ["eat", "tea", "tan", "ate", "nat", "bat"],
+输出:
+[
+  ["ate","eat","tea"],
+  ["nat","tan"],
+  ["bat"]
+]
+###############################################################
+解题思路：使用字典将异位词的组合在列表中，然后在通过.values()的for循环添加到result列表中
+python代码:
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        result = []
+        dict_t = {}
+        for i in strs:
+            word = "".join(sorted(i))
+            if word not in dict_t:
+                dict_t[word] = [i]
+            else:
+                dict_t[word].append(i)
+        for i in dict_t.values():
+            result += [i]
+        return result
