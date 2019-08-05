@@ -3,3 +3,24 @@ python代码：
 class Solution:
     def multiply(self, num1: str, num2: str) -> str:
         return str(int(num1) * int(num2))
+
+或者按照乘法的形式进行相乘，首先把两个字符串倒序，两个for循环进行乘积并放入列表中，最后用while循环将为零的值删去。
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        num1 = num1[::-1]
+        num2 = num2[::-1]
+        temp = [0 for _ in range(len(num1)+len(num2))]
+        for i in range(len(num1)):
+            for j in range(len(num2)):
+                temp[i+j] += int(num1[i]) * int(num2[j])
+        
+        ans = []
+        for i in range(len(temp)):
+            digit = temp[i] % 10
+            carry = temp[i] // 10
+            if i < len(temp) - 1:
+                temp[i+1] += carry
+            ans.insert(0, str(digit))
+        while ans[0] == '0' and len(ans) > 1:
+            ans.pop(0)
+        return "".join(ans)
