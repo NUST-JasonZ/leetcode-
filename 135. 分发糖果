@@ -5,10 +5,12 @@
   相邻的孩子中，评分高的孩子必须获得更多的糖果。
   那么这样下来，老师至少需要准备多少颗糖果呢？
   
-思路：最简单的是使用暴力搜索，初始化一个列表每人都发一块糖，然后遍历，如果等级比右边人高，但糖没右边人多，则比右边人多一块糖；
+思路1：最简单的是使用暴力搜索，初始化一个列表每人都发一块糖，然后遍历，如果等级比右边人高，但糖没右边人多，则比右边人多一块糖；
       如果等级比左边人高，但糖没左边人多，则比左边人多一块糖。遍历一次可能不够，如果继续遍历，使用flag记录是否有糖的变化，
       如果没有变化说明已经分发完毕，结束循环。
-代码：
+思路2：使用两个列表，一个列表可以从左到右遍历，起始值为1，如果索引处的等级比左边高，则比左边多一块糖，否则1块糖；另一个列表可以从右到左遍历，
+      起始值为1，如果索引处的等级比右边高，则比右边多一块糖，否则1块糖。最后遍历一下，取两列表索引值最大的糖数。
+代码1：
 class Solution:
     def candy(self, ratings: List[int]) -> int:
         dp = [1 for _ in ratings]
@@ -23,3 +25,25 @@ class Solution:
                     dp[i] = dp[i-1] +1
                     flag = True
         return sum(dp)
+代码2：
+class Solution:
+    def candy(self, ratings: List[int]) -> int:
+        dpl = [0 for _ in ratings]
+        dpr = [0 for _ in ratings]
+        dpl[0] = 1
+        dpr[-1] = 1
+        for i in range(1, len(ratings)):
+            if ratings[i] > ratings[i-1]:
+                dpl[i] = dpl[i-1] +1
+            else:
+                dpl[i] = 1
+        
+        for i in range(len(ratings)-2, -1, -1):
+            if ratings[i] > ratings[i+1] and dpr[i] <= dpr[i+1]:
+                dpr[i] = dpr[i+1] + 1
+            else:
+                dpr[i] = 1
+        result = 0
+        for i in range(len(ratings)):
+            result += max(dpl[i], dpr[i])
+        return result
